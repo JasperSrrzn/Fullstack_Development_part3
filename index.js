@@ -4,7 +4,12 @@ const app = express()
 
 
 app.use(express.json())
+morgan.token('person', function getBody (req) {
+  return req.body
+})
+
 app.use(morgan("tiny"))
+
 
 let persons = [
     {
@@ -58,6 +63,9 @@ const generateId = () => {
   return Math.floor(Math.random()*10000)
 }
 
+morgan.token('body',(req, res) => { return JSON.stringify(req.body) });
+app.use(morgan(':method :url :status :response-time ms :body '));
+
 app.post('/api/persons', (request, response)=>{
 
   const body = request.body
@@ -75,6 +83,7 @@ app.post('/api/persons', (request, response)=>{
   persons = persons.concat(person)
   response.json(person)
 })
+
 
 
 const port = 3001
