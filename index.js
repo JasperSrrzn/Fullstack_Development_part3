@@ -2,8 +2,9 @@ const express = require("express")
 const morgan = require("morgan")
 const app = express()
 
-
+app.use(express.static('build'))
 app.use(express.json())
+
 morgan.token('person', function getBody (req) {
   return req.body
 })
@@ -86,5 +87,5 @@ app.post('/api/persons', (request, response)=>{
 
 
 
-const port = 3001
-app.listen(port)
+const PORT = process.env.PORT || 3001
+app.listen(PORT)
