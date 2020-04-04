@@ -82,7 +82,6 @@ const App = () => {
             setNotificationColor(null)
           },5000)
         })
-
       }
     }
 
