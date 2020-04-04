@@ -62,7 +62,6 @@ const App = () => {
       alert(`${newNumber} is already used by someone in the phonebook`)
 
     } else {
-
       const newPerson = {name: newName, number: newNumber}
       personService
         .addPerson(newPerson)
