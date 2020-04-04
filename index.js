@@ -1,9 +1,9 @@
-require("dotenv").config()
-const express = require("express")
-const morgan = require("morgan")
+require('dotenv').config()
+const express = require('express')
+const morgan = require('morgan')
 const app = express()
-const cors = require("cors")
-const Person = require("./models/person")
+const cors = require('cors')
+const Person = require('./models/person')
 
 app.use(express.static('build'))
 app.use(express.json())
@@ -14,7 +14,7 @@ morgan.token('person', function getBody (req) {
   return req.body
 })
 
-app.use(morgan("tiny"))
+app.use(morgan('tiny'))
 
 app.get('/api/persons', (request, response, next)=>{
   Person
@@ -25,7 +25,7 @@ app.get('/api/persons', (request, response, next)=>{
     .catch(error=>next(error))
 })
 
-app.get('/info', (request, response)=>{
+app.get('/info', (request, response, next)=>{
   Person
     .find({})
     .then(persons=>{
@@ -51,23 +51,18 @@ app.get('/api/persons/:id', (request, response, next)=>{
 app.delete('/api/persons/:id', (request, response, next) => {
   Person
     .findByIdAndRemove(request.params.id)
-    .then(result=>{
+    .then(()=>{
       response.status(204).end()
     })
     .catch(error=>next(error))
 })
 
 
-const generateId = () => {
-  return Math.floor(Math.random()*10000)
-}
-
-morgan.token('body',(req, res) => { return JSON.stringify(req.body) });
-app.use(morgan(':method :url :status :response-time ms :body '));
+morgan.token('body',(req) => { return JSON.stringify(req.body) })
+app.use(morgan(':method :url :status :response-time ms :body '))
 
 app.post('/api/persons', (request, response, next)=>{
 
-  const body = request.body
   if (request.body === undefined){
     return response.status(400).json({
       error: 'name must be unique'})
@@ -80,7 +75,7 @@ app.post('/api/persons', (request, response, next)=>{
 
   person
     .save()
-    .then(result=>{
+    .then(()=>{
       response.json(person.toJSON())
     })
     .catch(error=>next(error))
