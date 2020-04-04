@@ -12,7 +12,7 @@ const getAll = () => {
 const addPerson = (newPerson) => {
   return axios
             .post(baseUrl, newPerson)
-            .then(response=>response.data)
+            .then(response=>response.data)            
 }
 
 const deletePerson = (id) => {

@@ -64,7 +64,8 @@ const App = () => {
     } else {
 
       const newPerson = {name: newName, number: newNumber}
-      personService.addPerson(newPerson)
+      personService
+        .addPerson(newPerson)
         .then(returnedPerson=>{
             setPersons(persons.concat(returnedPerson))
             setNotificationColor('green')
@@ -73,6 +74,14 @@ const App = () => {
               setNotificationMessage(null)
               setNotificationColor(null)
             },5000)
+        })
+        .catch(error=>{
+          setNotificationColor('red')
+          setNotificationMessage(error.response.data.error)
+          setTimeout(() => {
+            setNotificationMessage(null)
+            setNotificationColor(null)
+          },5000)
         })
 
       }
